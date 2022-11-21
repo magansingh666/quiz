@@ -9,10 +9,13 @@ import AllQuizes from "./components/AllQuizes";
 import PlayQuiz from "./components/PlayQuiz";
 import QuizResult from "./components/QuizResult";
 import NewQuiz from "./components/NewQuiz";
+import store from '../src/redux/Store';
+import { Provider } from "react-redux";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
-  <BrowserRouter>
+  <Provider store={store}>
+    <BrowserRouter>
     <Routes>
       <Route path="/" element={<App />}>
         <Route index element={<Home />} />
@@ -24,4 +27,7 @@ root.render(
       </Route>      
     </Routes>
   </BrowserRouter>
+
+  </Provider>
+  
 );

@@ -8,7 +8,7 @@ function App() {
     <Container
       maxWidth="md"
       disableGutters="true"
-      style={{ backgroundColor: "gray", height: "90vh" }}    >
+      style={{ backgroundColor: "white", height: "90vh" , "overflow": "scroll"}}    >
       <Nav />      
       <Outlet />
     </Container>
