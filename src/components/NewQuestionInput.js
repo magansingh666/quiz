@@ -13,17 +13,14 @@ import Select from "@mui/material/Select";
 import InputLabel from "@mui/material/InputLabel";
 
 function NewQuestionInput(props) {
-  const [question, setQuestion] = useState({
-    qText: "",
-    options: [],
-    correct: 0,
-  });
+  const [question, setQuestion] = useState(props.qObj);
   const [newText, setNewText] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
 
   const handleQTextChange = (e) => {
     e.preventDefault();
     setQuestion({ ...question, qText: e.target.value });
+    props.handler({ ...question, qText: e.target.value })
   
   };
 
@@ -32,6 +29,7 @@ function NewQuestionInput(props) {
     let opts = [...question.options];
     opts[e.target.name] = e.target.value;
     setQuestion({ ...question, options: [...opts] });
+    props.handler({ ...question, options: [...opts] })
   };
 
   const handleOptionInputSubmit = (e) => {
@@ -42,19 +40,25 @@ function NewQuestionInput(props) {
     let opts = [...question.options];
     opts.push(newText);
     setQuestion({ ...question, options: [...opts] });
+    props.handler({ ...question, options: [...opts] })
     setNewText("");
   };
 
   const handleInputChange = (e) => {
     setNewText(e.target.value);
   };
+
+
   const handleDelete = (index) => {
     
     let opts = [...question.options];
     opts.splice(index, 1);
     setQuestion({ ...question, options: [...opts] });
+    props.handler({ ...question, options: [...opts] });
   };
 
+ 
+ 
   const handleQuestionSubmission = () => {
     if (question.qText.length < 10 || question.qText.length > 100) {
       setErrorMessage("Question Length should be between 10 to 100.");
@@ -64,15 +68,18 @@ function NewQuestionInput(props) {
       setErrorMessage("Options shoud be 2+ .");
     }
 
-    props.handler(question)
+    props.handler(question);
   };
 
   const handleSelectChange = (e) => {
     
     setQuestion({ ...question, correct: e.target.value });
+    props.handler({ ...question, correct: e.target.value });
+
   };
   return (
-    <div>
+    <Box sx={{ border: 1, p: 1, m: 1}}>
+      <h3>Question Number {props.qObj.serial_num + 1}</h3>
       <TextField
         sx={{ m: 2, width: "90%" }}
         id="outlined-multiline-flexible"
@@ -104,6 +111,29 @@ function NewQuestionInput(props) {
           ))}
       </ol>
 
+      {question.options.length > 0 && (
+        <Box style={{ width: "150px" }}>
+          <FormControl fullWidth>
+            <InputLabel id="demo-simple-select-label">
+              Correct Option
+            </InputLabel>
+            <Select
+              labelId="demo-simple-select-label"
+              id="demo-simple-select"
+              value={question.correct}
+              label="Correct Option"
+              onChange={handleSelectChange}
+            >
+              {question.options.map((e, i) => (
+                <MenuItem key={i} value={i}>
+                  {i + 1}
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
+        </Box>
+      )}
+
       <h4>Add a new Option</h4>
 
       <div
@@ -128,28 +158,7 @@ function NewQuestionInput(props) {
         </Button>
       </div>
 
-      {question.options.length > 0 && (
-        <Box style={{ width: "150px" }}>
-          <FormControl fullWidth>
-            <InputLabel id="demo-simple-select-label">
-              Correct Option
-            </InputLabel>
-            <Select
-              labelId="demo-simple-select-label"
-              id="demo-simple-select"
-              value={question.correct}
-              label="Correct Option"
-              onChange={handleSelectChange}
-            >
-              {question.options.map((e, i) => (
-                <MenuItem key={i} value={i}>
-                  {i + 1}
-                </MenuItem>
-              ))}
-            </Select>
-          </FormControl>
-        </Box>
-      )}
+      
 
       {errorMessage && (
         <Alert
@@ -162,7 +171,20 @@ function NewQuestionInput(props) {
         </Alert>
       )}
 
-      <Box textAlign="center">
+      
+    </Box>
+  );
+}
+
+
+
+
+export default NewQuestionInput;
+
+
+/*
+
+<Box textAlign="center">
         <Button
           variant="contained"
           size="large"
@@ -172,8 +194,4 @@ function NewQuestionInput(props) {
           Submit Question
         </Button>
       </Box>
-    </div>
-  );
-}
-
-export default NewQuestionInput;
+*/
