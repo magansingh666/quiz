@@ -19,8 +19,8 @@ function NewQuestionInput(props) {
 
   const handleQTextChange = (e) => {
     e.preventDefault();
-    setQuestion({ ...question, qText: e.target.value });
-    props.handler({ ...question, qText: e.target.value })
+    setQuestion({ ...question, qText: e.target.value, status: "Inactive", date: Date() });
+    props.handler({ ...question, qText: e.target.value, status: "Inactive", date: Date() })
   
   };
 
@@ -59,17 +59,7 @@ function NewQuestionInput(props) {
 
  
  
-  const handleQuestionSubmission = () => {
-    if (question.qText.length < 10 || question.qText.length > 100) {
-      setErrorMessage("Question Length should be between 10 to 100.");
-    }
-
-    if (question.options.length < 2) {
-      setErrorMessage("Options shoud be 2+ .");
-    }
-
-    props.handler(question);
-  };
+  
 
   const handleSelectChange = (e) => {
     

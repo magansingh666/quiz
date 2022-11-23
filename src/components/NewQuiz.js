@@ -6,6 +6,7 @@ import { useState } from "react";
 import { json } from "react-router-dom";
 
 
+
 let initial_ques_obj = {
     qText: "",
     options: [],
@@ -51,10 +52,11 @@ function NewQuiz() {
     if(quizsString == null ){quizsString = "[]"}
     let quizArray = JSON.parse(quizsString);
 
-    let quizObj = {quizName, quizDescription, questions} ;
+    let quizObj = {quizName, quizDescription, questions, date: Date(), status: "inactive"} ;
     quizArray.push(quizObj);
     localStorage.setItem("quizes", JSON.stringify(quizArray));
-    console.log(quizsString);    
+    let quizsString1 = localStorage.getItem("quizes");
+    console.log(quizsString1);    
   }
 
   return (

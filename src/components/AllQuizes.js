@@ -1,45 +1,143 @@
 import React, { useEffect, useState } from "react";
-import Box from '@mui/material/Box';
-import InputLabel from '@mui/material/InputLabel';
-import MenuItem from '@mui/material/MenuItem';
-import FormControl from '@mui/material/FormControl';
-import Select from '@mui/material/Select';
+import Box from "@mui/material/Box";
+import InputLabel from "@mui/material/InputLabel";
+import MenuItem from "@mui/material/MenuItem";
+import FormControl from "@mui/material/FormControl";
+import Select from "@mui/material/Select";
 import QuestionDisplay from "./QuestionDisplay";
+import QuestionList from "./QuestionList";
+
+import List from "@mui/material/List";
+import ListItem from "@mui/material/ListItem";
+import ListItemButton from "@mui/material/ListItemButton";
+import ListItemText from "@mui/material/ListItemText";
+import ListItemAvatar from "@mui/material/ListItemAvatar";
+import Checkbox from "@mui/material/Checkbox";
+import Avatar from "@mui/material/Avatar";
+
+import Table from "@mui/material/Table";
+import TableBody from "@mui/material/TableBody";
+import TableCell from "@mui/material/TableCell";
+import TableContainer from "@mui/material/TableContainer";
+import TableHead from "@mui/material/TableHead";
+import TableRow from "@mui/material/TableRow";
+import Paper from "@mui/material/Paper";
+import Switch from "@mui/material/Switch";
+import IconButton from "@mui/material/IconButton";
+import DeleteIcon from "@mui/icons-material/Delete";
+import CreateIcon from "@mui/icons-material/Create";
+import PlayArrowIcon from "@mui/icons-material/PlayArrow";
+import Button from "@mui/material/Button";
+import Modal from "./Modal";
+import QuizEditModal from "./QuizEditModal";
+import { act } from "react-dom/test-utils";
 
 function AllQuizes() {
   const [quizes, setQuizes] = useState([]);
   const [finished, setFinished] = useState(false);
+  const [showModal, setShowModal] = useState(false);
+  const [showEditModal, setShowEditModal] = useState(false);
+  const [activeIndex, setActiveIndex] = useState(-1);
   useEffect(() => {
     let quizsString = localStorage.getItem("quizes");
     let quizArray = JSON.parse(quizsString);
     setQuizes(quizArray);
-    console.log(quizes);
+    console.log(quizArray);
     setFinished(true);
   }, []);
-  const handleChange = (value) => {console.log(value)};
+
+
+   
+ 
+
+  const handleEdit = (index) => {
+    
+}
+
+const handlePlay = (index) => {
+    
+}
+
+const handleActiveStatusChange = (index) => {
+    
+}
+
+const handleModalClose = (str) => {
+  console.log(str);
+  setShowModal(false);
+  if(str === "yes"){
+    console.log(activeIndex);
+
+  }
+}
+
+const handleEditModalClose = (str) => {
+  console.log(str);
+  setShowEditModal(false);
+  if(str === "yes"){
+    console.log("hiiii we are great" + activeIndex);
+
+  }
+  if(str === "no"){
+    console.log("you have slelected no" + activeIndex);
+  }
+}
+
+
+ 
 
   return (
-    <div>
-      <h1> Quiz Summary</h1>
+    <Box sx={{m:1}}>
+      <Box textAlign={"right"}>
+        <Button variant="contained">Create New Quiz</Button>
+      </Box>
 
-      <FormControl fullWidth>
-        <InputLabel id="demo-simple-select-label">Select Quiz</InputLabel>
-        <Select
-          labelId="demo-simple-select-label"
-          id="demo-simple-select"
-          label="Select Quiz"
-          onChange={handleChange}  
-        >
 
-          {quizes.map((e, i) => <MenuItem value={i}>{e.quizName}</MenuItem>)}
-        
-        </Select>
-      </FormControl>
+      <h1>All Quizes List</h1>
 
-      {finished && <QuestionDisplay qObj={quizes[2].questions[0]} />}
+      <Table sx={{ minWidth: 650 }} aria-label="simple table">
+        <TableHead>
+          <TableRow>
+            <TableCell>Quiz Num. </TableCell>
+            <TableCell align="left">Title</TableCell>
+            <TableCell align="left">Status</TableCell>
+            <TableCell align="left">Created On</TableCell>
+            <TableCell align="left">Actions</TableCell>
+          </TableRow>
+        </TableHead>
+        <TableBody>
+          {quizes.map((qObj, index) => (
+          <TableRow key={index}>
+            <TableCell align="center"> {index + 1} </TableCell>
+            <TableCell align="left">
+              {qObj.quizName + qObj.quizDescription}
+            </TableCell>
+            <TableCell align="left">
+              {qObj.status}
+              <Switch defaultChecked />
+            </TableCell>
+            <TableCell align="left">{qObj.date.substr(0, 16)}</TableCell>
+            <TableCell align="left">
+              <IconButton onClick={() => {setShowModal(true); setActiveIndex(index)}}>
+                <DeleteIcon />
+              </IconButton>
+              <IconButton onClick={() => {setShowEditModal(true); setActiveIndex(index)}}>
+                <CreateIcon />
+              </IconButton>
+              <IconButton>
+                <PlayArrowIcon />
+              </IconButton>
+            </TableCell>
+          </TableRow>
+          ))}
+        </TableBody>
+      </Table>
 
-      
-    </div>
+      {showModal && <Modal handleClose={handleModalClose}/>}
+      {showEditModal && <QuizEditModal handleClose ={handleEditModalClose} />}
+
+
+    </Box>
   );
 }
 
