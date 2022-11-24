@@ -21,7 +21,7 @@ root.render(
         <Route index element={<Home />} />
         <Route path="all" element={<AllQuizes />} />
         <Route path="new" element={<NewQuiz />} /> 
-        <Route path="play" element={<PlayQuiz />} /> 
+        <Route path="play/:quizid" element={<PlayQuiz />} /> 
         <Route path="score" element={<QuizResult />} />        
            
       </Route>      

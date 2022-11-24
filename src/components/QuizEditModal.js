@@ -1,8 +1,10 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
+import { TextField } from '@mui/material';
+import { useState } from 'react';
 
 
 const style = {
@@ -18,6 +20,27 @@ const style = {
   };
 
 function QuizEditModal(props) {
+  const [quiz, setQuiz] = useState(props.qObj);
+ 
+
+  useEffect(()=> {
+    console.log(props.qObj);
+
+  },[]);
+
+  const handleDoneClick = (e) => {
+    props.handleClose(JSON.parse(JSON.stringify(quiz)));
+    console.log(quiz);
+
+
+  }
+
+  const handleChange = (e) => {
+    console.log(e.target.name);
+    setQuiz({...quiz, [e.target.name] : e.target.value })
+
+  }
+
   return (
     <div>
        <Modal
@@ -26,17 +49,29 @@ function QuizEditModal(props) {
         aria-describedby="modal-modal-description"
       >
         <Box sx={style}>
-          <Typography variant="h9" component="h2" fontFamily={"Times"}>
-            This is modal for editing quiz tile and description
-          </Typography>
-          <Typography sx={{ mt: 2 }} fontFamily={"Times"}>
-            modal for edition quiz title and 
-          </Typography>
+        <TextField
+        sx={{ m: 2, width: "90%" }}
+        name="quizName"
+        label="Edit Quiz Title"
+        multiline
+        maxRows={4}
+        value={quiz.quizName}
+        onChange={handleChange}
+      />
 
+        <TextField
+        sx={{ m: 2, width: "90%" }}
+        name="quizDescription"
+        label="Edit Quiz description"
+        multiline
+        maxRows={4}
+        value={quiz.quizDescription}
+        onChange={handleChange}
+      />  
 
-          <Box textAlign="right">           
-            <Button variant='outlined' sx={{m:1}} onClick={() => props.handleClose("no")}>NO</Button>
-            <Button variant='contained' onClick={() => props.handleClose("yes")}>YES</Button>
+          <Box textAlign="right">         
+           
+            <Button variant='contained' onClick={handleDoneClick}>DONE</Button>
 
           </Box>
         </Box>

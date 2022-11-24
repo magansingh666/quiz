@@ -31,6 +31,7 @@ import Button from "@mui/material/Button";
 import Modal from "./Modal";
 import QuizEditModal from "./QuizEditModal";
 import { act } from "react-dom/test-utils";
+import { useNavigate } from "react-router-dom";
 
 function AllQuizes() {
   const [quizes, setQuizes] = useState([]);
@@ -38,16 +39,18 @@ function AllQuizes() {
   const [showModal, setShowModal] = useState(false);
   const [showEditModal, setShowEditModal] = useState(false);
   const [activeIndex, setActiveIndex] = useState(-1);
+
+
+  const navigate = useNavigate();
+
+
   useEffect(() => {
     let quizsString = localStorage.getItem("quizes");
     let quizArray = JSON.parse(quizsString);
     setQuizes(quizArray);
-    console.log(quizArray);
+
     setFinished(true);
-  }, []);
-
-
-   
+  }, []);  
  
 
   const handleEdit = (index) => {
@@ -62,29 +65,54 @@ const handleActiveStatusChange = (index) => {
     
 }
 
+//handling delete
 const handleModalClose = (str) => {
   console.log(str);
-  setShowModal(false);
-  if(str === "yes"){
-    console.log(activeIndex);
-
-  }
-}
-
-const handleEditModalClose = (str) => {
-  console.log(str);
-  setShowEditModal(false);
-  if(str === "yes"){
-    console.log("hiiii we are great" + activeIndex);
-
-  }
-  if(str === "no"){
-    console.log("you have slelected no" + activeIndex);
-  }
-}
-
-
  
+  setShowModal(false);
+  if(str === "no"){
+    return;
+  }
+  setQuizes(quizes => {
+    let newQuizes = JSON.parse(JSON.stringify(quizes)); 
+    newQuizes.splice(activeIndex, 1); 
+    console.log(newQuizes);
+    localStorage.setItem("quizes", JSON.stringify(newQuizes));
+    return newQuizes;
+  });
+ 
+}
+
+const handleEditModalClose = (newQuizObject) => {
+  console.log("In handle Edit modal close NEw Quiz Object is ....  ")
+  console.log(newQuizObject);
+  setShowEditModal(false);
+  
+  setQuizes(quizes => {
+    let newQuizes = JSON.parse(JSON.stringify(quizes));
+    newQuizes[activeIndex] = JSON.parse(JSON.stringify(newQuizObject));
+    console.log(newQuizes);
+    localStorage.setItem("quizes", JSON.stringify(newQuizes));
+    return newQuizes;
+  });
+} 
+
+const handleSwitchStatusChange = (index, e) => {
+  console.log(index)
+  console.log(e.target.checked)
+  setQuizes(quizes => {
+    let newQuizes = JSON.parse(JSON.stringify(quizes)); 
+    newQuizes[index].status = e.target.checked ? "active" : "inactive";
+    console.log(newQuizes);
+    localStorage.setItem("quizes", JSON.stringify(newQuizes));
+    return newQuizes;
+  });
+  
+
+}
+
+
+
 
   return (
     <Box sx={{m:1}}>
@@ -114,17 +142,18 @@ const handleEditModalClose = (str) => {
             </TableCell>
             <TableCell align="left">
               {qObj.status}
-              <Switch defaultChecked />
+              <Switch checked={qObj.status === "active" ? true : false}
+              onChange={(e) => {handleSwitchStatusChange(index, e)}}/>
             </TableCell>
             <TableCell align="left">{qObj.date.substr(0, 16)}</TableCell>
             <TableCell align="left">
               <IconButton onClick={() => {setShowModal(true); setActiveIndex(index)}}>
                 <DeleteIcon />
               </IconButton>
-              <IconButton onClick={() => {setShowEditModal(true); setActiveIndex(index)}}>
+              <IconButton onClick={() => { setShowEditModal(true) ;  setActiveIndex(index)}}>
                 <CreateIcon />
               </IconButton>
-              <IconButton>
+              <IconButton onClick= {() => navigate("/play/" + index)} >
                 <PlayArrowIcon />
               </IconButton>
             </TableCell>
@@ -134,7 +163,7 @@ const handleEditModalClose = (str) => {
       </Table>
 
       {showModal && <Modal handleClose={handleModalClose}/>}
-      {showEditModal && <QuizEditModal handleClose ={handleEditModalClose} />}
+      {showEditModal && <QuizEditModal handleClose = {handleEditModalClose} qObj = {quizes[activeIndex]} />}
 
 
     </Box>
