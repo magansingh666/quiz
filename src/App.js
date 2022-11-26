@@ -6,10 +6,12 @@ import Nav from "./components/Nav";
 function App() {
   return (
     <Container
-      maxWidth="md"
-      disableGutters="true"
-      style={{ backgroundColor: "white", height: "90vh" , "overflow": "scroll"}}    >
-      <Nav />      
+      maxWidth="md" disableGutters="true"
+      sx={{ backgroundColor: "#e0f2f1", height: '100vh' , overflowX:'scroll', overflowY:'scroll',
+      '&::-webkit-scrollbar':{
+          width:0,
+      }}}>
+      <Nav  />      
       <Outlet />
     </Container>
   );

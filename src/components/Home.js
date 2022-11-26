@@ -3,34 +3,58 @@ import {Outlet, Link} from 'react-router-dom'
 import Card from '@mui/material/Card';
 import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
-import { Button } from '@mui/material';
+import { Button, Box } from '@mui/material';
 import {useNavigate} from 'react-router-dom';
+import Typography from '@mui/material/Typography';
 
 function Home() {
     const navigate = useNavigate();
   return (
-    <div style={{"display": "flex", "justifyContent" : "space-between"}}>
-        <Card sx={{ maxWidth: 200, m : 1 }} ariant="outlined" >
+    <div style={{"border" : "", "height" : "85vh", "display" : "flex",  "alignItems" : "center" ,    
+    "justifyContent" : "center"}}>
+        <Card sx={{ width: 200, m : 1, p: 1, backgroundColor : "#F44336", borderRadius: "20px" }} ariant="outlined" >
             <CardContent>
-                <p>Create A New Quiz</p>
+            <Typography variant="h5">
+                 Create New           
+            </Typography>          
+                
             </CardContent>
+            
             <CardActions>
-                <Button onClick={() => {navigate("/new")}} variant='outlined'>New Quiz</Button>
+                <Box sx={{"textAlign" : "center"}}>
+                <Button onClick={() => {navigate("/new")}} variant='contained'>New Quiz</Button>
+                </Box>
+                
             </CardActions>
 
         </Card>
 
 
-        <Card sx={{ maxWidth: 200, m : 1 }} ariant="outlined" >
+        <Card sx={{ width: 200, m : 1, p : 1, backgroundColor : "#F44336", borderRadius: "20px" }} ariant="outlined" >
             <CardContent>
-                <p>My All Quizes</p>
+            <Typography variant="h5">
+                 View All          
+            </Typography>
             </CardContent>
             <CardActions>
-                <Button onClick={() => {navigate("/all")}} variant='outlined'>View All Quizes</Button>
+                <Button onClick={() => {navigate("/all")}} variant='contained'>All Quizes</Button>
             </CardActions>
 
         </Card>
 
+
+
+
+
+      
+    </div>
+  )
+}
+
+export default Home
+
+
+/*
 
 
         <h1>I am Home</h1>
@@ -42,9 +66,7 @@ function Home() {
         <Outlet>
         </Outlet>
 
-      
-    </div>
-  )
-}
 
-export default Home
+
+
+*/

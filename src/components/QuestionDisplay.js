@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect , useState } from "react";
 import PropTypes from "prop-types";
 
 import List from "@mui/material/List";
@@ -11,23 +11,29 @@ import Avatar from "@mui/material/Avatar";
 import Box from "@mui/material/Box";
 
 function QuestionDisplay(props) {
-  const [checked, setChecked] = React.useState([1]);
+  const {selectionHandler, qObj} = props;
+ 
+  const [selectedOption, setSelectedOption] = useState(-1);
   useEffect(() => {
-    console.log(props.qObj);
+    console.log(qObj);
+    if(selectionHandler !== undefined){
+      selectionHandler(selectedOption)}
 
 
-  }, []);
+  }, [selectedOption]);
+
+  useEffect(() => {
+    setSelectedOption(-1);
+
+  }, [qObj]);
 
 
 
-
-
-  const handleToggle = (value) => () => {
-    console.log(value);
-    let newChecked = props.qObj.options.indexOf(value);
-    if(props.setSelectedOption !== undefined){
-        props.setSelectedOption(newChecked);
-    }
+  const handleToggle = (e, index)  => {
+   console.log(e.target.checked)
+   console.log(index)
+   e.target.checked ? setSelectedOption(index) : setSelectedOption(-1);
+   
 
     
   }; 
@@ -40,24 +46,22 @@ function QuestionDisplay(props) {
           dense
           sx={{ width: "100%", maxWidth: 360, bgcolor: "background.paper" }}
         >
-          { props.qObj.options.map((value, index) => {
-            const labelId = `checkbox-list-secondary-label-${value}`;
+          { props.qObj.options.map((value, index) => {            
             return (
               <ListItem
-                key={value}
+                key={index}
                 secondaryAction={
                   <Checkbox
                     edge="begin"                     
-                    onChange={handleToggle(value)}
-                    checked={index === props.qObj.correct}                    
+                    onChange={(e) => handleToggle(e, index)}
+                    checked={index === selectedOption}                    
                   />
                 }
                 disablePadding
               >
                 <ListItemButton>
-                  <ListItemText
-                    id={labelId}
-                    primary={`Line item ${value + 1}`}
+                  <ListItemText                    
+                    primary={value}
                   />
                 </ListItemButton>
               </ListItem>

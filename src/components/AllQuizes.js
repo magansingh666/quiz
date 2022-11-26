@@ -6,6 +6,8 @@ import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
 import QuestionDisplay from "./QuestionDisplay";
 import QuestionList from "./QuestionList";
+import { Typography } from "@mui/material";
+import { styled } from '@mui/material/styles';
 
 import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
@@ -32,6 +34,30 @@ import Modal from "./Modal";
 import QuizEditModal from "./QuizEditModal";
 import { act } from "react-dom/test-utils";
 import { useNavigate } from "react-router-dom";
+
+import { tableCellClasses } from '@mui/material/TableCell';
+
+
+
+const StyledTableCell = styled(TableCell)(({ theme }) => ({
+  [`&.${tableCellClasses.head}`]: {
+    backgroundColor: "#424200",
+    color: theme.palette.common.white,
+  },
+  [`&.${tableCellClasses.body}`]: {
+    fontSize: 14,
+  },
+}));
+
+const StyledTableRow = styled(TableRow)(({ theme }) => ({
+  '&:nth-of-type(odd)': {
+    backgroundColor: theme.palette.action.hover,
+  },
+  // hide last border
+  '&:last-child td, &:last-child th': {
+    border: 0,
+  },
+}));
 
 function AllQuizes() {
   const [quizes, setQuizes] = useState([]);
@@ -107,6 +133,14 @@ const handleSwitchStatusChange = (index, e) => {
     localStorage.setItem("quizes", JSON.stringify(newQuizes));
     return newQuizes;
   });
+
+}
+
+const handleEditActionClicked = (qObj, index) => {
+  
+    setShowEditModal(true) ;  
+    setActiveIndex(index) ;
+  
   
 
 }
@@ -117,28 +151,30 @@ const handleSwitchStatusChange = (index, e) => {
   return (
     <Box sx={{m:1}}>
       <Box textAlign={"right"}>
-        <Button variant="contained">Create New Quiz</Button>
+        <Button variant="contained" onClick={() => navigate("/new")}>Create New Quiz</Button>
       </Box>
 
 
-      <h1>All Quizes List</h1>
+      <Typography variant="h4">All Quizes</Typography>
 
       <Table sx={{ minWidth: 650 }} aria-label="simple table">
         <TableHead>
           <TableRow>
-            <TableCell>Quiz Num. </TableCell>
-            <TableCell align="left">Title</TableCell>
-            <TableCell align="left">Status</TableCell>
-            <TableCell align="left">Created On</TableCell>
-            <TableCell align="left">Actions</TableCell>
+            <StyledTableCell align="left">Quiz Num. </StyledTableCell>
+            <StyledTableCell align="left">Title</StyledTableCell>
+            <StyledTableCell align="left">Status</StyledTableCell>
+            <StyledTableCell align="left">Created On</StyledTableCell>
+            <StyledTableCell align="left">Actions</StyledTableCell>
           </TableRow>
         </TableHead>
         <TableBody>
           {quizes.map((qObj, index) => (
-          <TableRow key={index}>
+          <StyledTableRow key={index}>
             <TableCell align="center"> {index + 1} </TableCell>
             <TableCell align="left">
-              {qObj.quizName + qObj.quizDescription}
+              <Button variant="text" onClick={() => { handleEditActionClicked(qObj, index)}}>
+                {qObj.quizName}</Button>
+              
             </TableCell>
             <TableCell align="left">
               {qObj.status}
@@ -150,14 +186,15 @@ const handleSwitchStatusChange = (index, e) => {
               <IconButton onClick={() => {setShowModal(true); setActiveIndex(index)}}>
                 <DeleteIcon />
               </IconButton>
-              <IconButton onClick={() => { setShowEditModal(true) ;  setActiveIndex(index)}}>
+              <IconButton onClick={() => { handleEditActionClicked(qObj, index)}}>
                 <CreateIcon />
               </IconButton>
-              <IconButton onClick= {() => navigate("/play/" + index)} >
+              <IconButton disabled={qObj.status === "active" ? false : true}
+              onClick= {() => { if(qObj.status === "active") {navigate("/play/" + index)}  }} >
                 <PlayArrowIcon />
               </IconButton>
             </TableCell>
-          </TableRow>
+          </StyledTableRow>
           ))}
         </TableBody>
       </Table>

@@ -14,6 +14,7 @@ import MenuItem from '@mui/material/MenuItem';
 import AdbIcon from '@mui/icons-material/Adb';
 import QuizIcon from '@mui/icons-material/Quiz';
 import { useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 
 const pages = ['MyQuiz', 'PlayQuiz', 'CreateNew'];
 const settings = ['setting1', 'setting2', 'setting3'];
@@ -23,6 +24,7 @@ function Nav() {
   const [anchorElUser, setAnchorElUser] = React.useState(null);
 
   const userObj = useSelector((state) => state.quiz.name);
+  const navigate = useNavigate();
 
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
@@ -91,13 +93,8 @@ function Nav() {
                 display: { xs: 'block', md: 'none' },
               }}
             >
-              {pages.map((page) => (
-                <MenuItem key={page} onClick={handleCloseNavMenu}>
-                  <Typography textAlign="center">{page}</Typography>
-                </MenuItem>
-              ))}
-
-              <MenuItem>kkkkk</MenuItem>
+              <MenuItem onClick={() => {navigate("/all")}}>ALL Quizes</MenuItem>
+            
               
             </Menu>
           </Box>
@@ -121,15 +118,8 @@ function Nav() {
             QUIZ
           </Typography>
           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
-            {pages.map((page) => (
-              <Button
-                key={page}
-                onClick={handleCloseNavMenu}
-                sx={{ my: 2, color: 'black', display: 'block' }}
-              >
-                {page}
-              </Button>
-            ))}
+              <MenuItem onClick={() => {navigate("/all")}}>ALL Quizes</MenuItem>
+            
             
           </Box>
 
