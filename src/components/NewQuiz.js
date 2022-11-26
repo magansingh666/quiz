@@ -53,16 +53,32 @@ function NewQuiz() {
     let quizArray = JSON.parse(quizsString);
 
     let quizObj = {quizName, quizDescription, questions, date: Date(), status: "inactive"} ;
+    if(quizObj.quizName.length < 10 || quizObj.quizName.length > 30){
+      alert("ERROR! Quiz Name length should be between 10 characters to 30 characters");
+      return;
+    }
+
+    if(quizObj.questions.some(e => e.qText.length < 10 || e.qText.length > 200 || e.options.length < 2 ? true : false )){
+      alert("Question length should be between 10 to 200 and options should be 2 or more");
+      return;
+    }
+   
+
+
+
+
+
     quizArray.push(quizObj);
     localStorage.setItem("quizes", JSON.stringify(quizArray));
     let quizsString1 = localStorage.getItem("quizes");
-    console.log(quizsString1);    
+    console.log(quizsString1); 
+    alert("Your quiz has been saved. You can add more questions to it.")
   }
 
   return (
     <div>
       <h1>Create New Quiz</h1>
-      <QuizTypeModal open={false} />
+      <QuizTypeModal open={true} />
       <Box sx={{ border: 3, p: 1, m: 1 }} textAlign="center">
         <TextField
           sx={{  m: 2, width: "90%" }}

@@ -35,6 +35,10 @@ function PlayQuiz(props) {
  
 
   const handleStratQuizClicked = () => {
+    if(username.length < 5 || username.length > 50){
+      alert("Length of Name should be between 5 to 50 characters");
+      return;
+    }
     console.log(quiz);
     setState("start_quiz");
     dispatch(addUsername(username));

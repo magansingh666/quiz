@@ -43,8 +43,8 @@ export default function QuizTypeModal(props) {
           </Typography>
           <Button variant='outlined' style={{"width": "100%", "margin" : "2px"}} onClick={handleClick}>MCQs (single choice)</Button>
           <Button variant='outlined' style={{"width": "100%", "margin" : "2px"}}>MCQs (1+ choices correct)</Button>
-          <Button variant='outlined' style={{"width": "100%", "margin" : "2px"}}>MCQs (single choice)</Button>
-          <Button variant='outlined' style={{"width": "100%", "margin" : "2px"}}>MCQs (1+ choices correct)</Button>
+          <Button variant='outlined' style={{"width": "100%", "margin" : "2px"}}>Descriptive Type</Button>
+          
           
         </Box>
       </Modal>

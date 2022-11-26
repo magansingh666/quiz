@@ -94,6 +94,8 @@ function Nav() {
               }}
             >
               <MenuItem onClick={() => {navigate("/all")}}>ALL Quizes</MenuItem>
+              <MenuItem onClick={() => {navigate("/all")}}>Play</MenuItem>
+              <MenuItem onClick={() => {navigate("/new")}}>Create New</MenuItem>
             
               
             </Menu>
@@ -119,6 +121,8 @@ function Nav() {
           </Typography>
           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
               <MenuItem onClick={() => {navigate("/all")}}>ALL Quizes</MenuItem>
+              <MenuItem onClick={() => {navigate("/all")}}>Play</MenuItem>
+              <MenuItem onClick={() => {navigate("/new")}}>Create New</MenuItem>
             
             
           </Box>

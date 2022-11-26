@@ -11,6 +11,7 @@ import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
 import InputLabel from "@mui/material/InputLabel";
+import DoneIcon from '@mui/icons-material/Done';
 
 function NewQuestionInput(props) {
   const [question, setQuestion] = useState(props.qObj);
@@ -143,9 +144,13 @@ function NewQuestionInput(props) {
           value={newText}
           onChange={handleInputChange}
         />
-        <Button variant="outlined" onClick={handleOptionInputSubmit}>
-          Submit
-        </Button>
+        
+        <IconButton onClick={handleOptionInputSubmit}>
+        <DoneIcon color="success" />
+        </IconButton>
+
+
+
       </div>
 
       
