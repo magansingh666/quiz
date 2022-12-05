@@ -22,27 +22,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import CreateIcon from '@mui/icons-material/Create';
 import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 
-function QuestionList(props) {
-  useEffect(() => {
-    console.log(props.qObj);
-  }, []);
-
- 
-  const handleDelete = (index) => {
-
-  }
-
-  const handleEdit = (index) => {
-    
-}
-
-const handlePlay = (index) => {
-    
-}
-
-const handleActiveStatusChange = (index) => {
-    
-}
+function QuestionList(props) {  
 
   return (
     <Box>

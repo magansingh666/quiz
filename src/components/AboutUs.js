@@ -3,7 +3,7 @@ import React from 'react'
 function AboutUs() {
   return (
     <div>
-        <h1>I am About Us</h1>      
+        <h5>Designed and created  by MS</h5>      
     </div>
   )
 }
